@@ -1,0 +1,5 @@
+{:main io.zane.obb
+ :optimizations :advanced
+ :target :none
+ :infer-externs true
+ :parallel-build true}

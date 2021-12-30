@@ -1,0 +1,9 @@
+{:tasks {:requires [[babashka.fs :as fs]]
+         clean (fs/delete-tree "out")
+         compile (clojure "-M -m cljs.main -co build.edn -c")
+         build (do (run 'compile)
+                   (spit "out/obb"
+                         (str "#!/usr/bin/osascript -l JavaScript\n\n"
+                              (slurp "out/main.js")
+                              "\n\nfunction run(args) { io.zane.obb.run(args); }"))
+                   (shell "chmod u+x out/obb"))}}
