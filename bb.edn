@@ -5,5 +5,5 @@
                    (spit "out/obb"
                          (str "#!/usr/bin/osascript -l JavaScript\n\n"
                               (slurp "out/main.js")
-                              "\n\nfunction run(args) { io.zane.obb.run(args); }"))
+                              "\n\nfunction run(args) { return io.zane.obb.run(args); }"))
                    (shell "chmod u+x out/obb"))}}
