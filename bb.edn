@@ -1,8 +1,13 @@
 {:tasks {:requires [[babashka.fs :as fs]]
-         clean (fs/delete-tree "out")
+         :init (do (def target-dir "out")
+                   (def executable-name "obb"))
+         clean (fs/delete-tree target-dir)
          compile (clojure "-M -m cljs.main -co build.edn -c")
          build (do (run 'compile)
-                   (spit "out/obb"
-                         (str "#!/usr/bin/env osascript -l JavaScript\n\n"
-                              (slurp "out/main.js")))
-                   (shell "chmod u+x out/obb"))}}
+                   (let [bin-dir (str target-dir "/bin")
+                         executable-path (str bin-dir "/" executable-name)]
+                     (fs/create-dirs bin-dir)
+                     (spit executable-path
+                           (str "#!/usr/bin/env osascript -l JavaScript\n\n"
+                                (slurp "out/main.js")))
+                     (shell (str "chmod u+x " executable-path))))}}

@@ -1,4 +1,4 @@
-{:main io.zane.obb
+{:main obb.main
  :optimizations :advanced
  :target :none
  :infer-externs true

@@ -1,8 +1,8 @@
-(ns io.zane.obb
+(ns obb.main
   (:refer-clojure :exclude [eval slurp])
   (:require [clojure.core :as clojure]
             [clojure.tools.cli :as cli]
-            [io.zane.obb.sci :as obb.sci]
+            [obb.impl.sci :as impl.sci]
             [sci.core :as sci]
             [sci.impl.interop :as interop]))
 
@@ -25,8 +25,8 @@
 
 (defn eval-string
   [s]
-  (with-redefs [interop/invoke-instance-method obb.sci/invoke-instance-method
-                interop/invoke-static-method obb.sci/invoke-static-method
+  (with-redefs [interop/invoke-instance-method impl.sci/invoke-instance-method
+                interop/invoke-static-method impl.sci/invoke-static-method
                 clojure/map? (every-pred (complement object-specifier?) map?)]
     (sci/eval-string s {:classes {'js goog/global
                                   :allow :all}})))

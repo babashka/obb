@@ -1,4 +1,4 @@
-(ns io.zane.obb.sci
+(ns obb.impl.sci
   (:require [clojure.string :as string]
             [goog.object :as gobject]
             [sci.impl.interop :as interop]))
