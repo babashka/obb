@@ -1,5 +1,6 @@
 # obb
 
+[![project chat](https://img.shields.io/badge/slack-join_chat-brightgreen.svg)](https://app.slack.com/client/T03RZGPFR/C02S1220XRV)
 ![Stability: Experimental](https://img.shields.io/badge/stability-experimental-orange.svg)
 
 Ad-hoc [ClojureScript](https://clojurescript.org/) scripting of Mac applications via Apple's [Open Scripting Architecture](https://developer.apple.com/library/archive/documentation/LanguagesUtilities/Conceptual/MacAutomationScriptingGuide/).
@@ -10,7 +11,7 @@ Experimental.
 
 ## Installation
 
-[Install Babashka](https://github.com/babashka/babashka/#installation) then build with:
+[Install Babashka](https://github.com/babashka/babashka/#installation). Then build with:
 
 ``` shell
 $ bb build
