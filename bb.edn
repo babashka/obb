@@ -26,7 +26,7 @@
                      (shell (str "chmod u+x " executable-path))))
 
          upload-assets  {:doc    "Uploads jar and vsix to Github"
-                         ;; :depends [build]
+                         :depends [build]
                          :requires ([upload-release :as ur])
                          :task    (do
                                     (fs/copy executable-path ".")
