@@ -4,11 +4,11 @@
 
 Ad-hoc [ClojureScript](https://clojurescript.org/) scripting of Mac applications via Apple's [Open Scripting Architecture](https://developer.apple.com/library/archive/documentation/LanguagesUtilities/Conceptual/MacAutomationScriptingGuide/).
 
-# Status
+## Status
 
 Experimental.
 
-# Installation
+## Installation
 
 [Install Babashka](https://github.com/babashka/babashka/#installation) then build with:
 
@@ -18,7 +18,7 @@ $ bb build
 
 Then place `out/obb` anywhere on your path.
 
-# Usage
+## Usage
 
 Evaluate an expression:
 
@@ -33,6 +33,6 @@ Or evaluate a file:
 $ obb examples/choice.cljs
 ```
 
-# How does this tool work? 
+## How does this tool work? 
 
 ClojureScript code is evaluated through [SCI](https://github.com/borkdude/sci), the same interpreter that powers [babashka](https://babashka.org/). SCI is compiled to JavaScript which is then by executed by `osascript`.
