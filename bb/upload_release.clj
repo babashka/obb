@@ -25,7 +25,6 @@
                                 :repo "obb"
                                 :file file
                                 :tag (prepend-v version)
-                                :draft true
                                 :prerelease (str/ends-with? version "SNAPSHOT")
                                 :content-type content-type}))
       (println "Skipping release artifact (no GITHUB_TOKEN or not on main branch)"))

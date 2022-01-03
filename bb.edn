@@ -1,18 +1,25 @@
 {:paths ["bb"]
+
  :deps  {borkdude/gh-release-artifact
          {:git/url "https://github.com/borkdude/gh-release-artifact"
           :sha     "a83ee8da47d56a80b6380cbb6b4b9274048067bd"}}
- :tasks {:requires [[babashka.fs :as fs]]
+
+ :tasks {:requires [[babashka.fs :as fs]
+                    [clojure.edn :as edn]]
+
          :init (do (def target-dir "out")
-                   (def executable-name "obb"))
+                   (def executable-name "obb")
+                   (def bin-dir (str (fs/file target-dir "bin")))
+                   (def executable-path (str (fs/file bin-dir executable-name)))
+                   (def tar-gz (str (fs/file target-dir (str executable-name ".tar.gz"))))
+                   (def version (:version (edn/read-string (slurp "project.edn")))))
 
          clean (fs/delete-tree target-dir)
 
          compile (clojure "-M -m cljs.main -co build.edn -c")
 
          build (do (run 'compile)
-                   (let [bin-dir (str (fs/file target-dir "bin"))
-                         executable-path (str (fs/file bin-dir executable-name))]
+                   (let []
                      (fs/create-dirs bin-dir)
                      (spit executable-path
                            (str "#!/usr/bin/env osascript -l JavaScript\n\n"
@@ -22,6 +29,7 @@
          upload-assets  {:doc    "Uploads jar and vsix to Github"
                          :depends [build]
                          :requires ([upload-release :as ur])
-                         :task    (ur/release {:file "out/obb"
-                                               :version "0.0.1-SNAPSHOT"
-                                               :content-type "text/javascript"})}}}
+                         :task    (do
+                                    (shell "tar -czvf" tar-gz executable-path)
+                                    (ur/release {:file tar-gz
+                                                 :version version}))}}}
