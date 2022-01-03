@@ -23,8 +23,8 @@ Then place `out/obb` anywhere on your path.
 Evaluate an expression:
 
 ``` shell
-$ obb -e '(+ 1 2 3)'
-6
+$ obb -e '(-> (js/Application "Safari") (.-documents) (aget 0) (.url))'
+https://clojure.org/
 ```
 
 Or evaluate a file:
