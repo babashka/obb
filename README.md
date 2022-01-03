@@ -39,7 +39,19 @@ Or evaluate a file:
 $ obb examples/choice.cljs
 ```
 
-## How does this tool work?
+Or make an executable script by using `obb` in a [shebang](https://en.wikipedia.org/wiki/Shebang_(Unix)):
+
+``` shell
+$ cat quit.cljs
+#!/usr/bin/env obb
+(-> (js/Application "Safari")
+    (.quit))
+$ chmod u+x quit.cljs
+$ ./quit.cljs
+true
+```
+
+## How does this tool work? 
 
 ClojureScript code is evaluated through [SCI](https://github.com/borkdude/sci), the same interpreter that powers [babashka](https://babashka.org/). SCI is compiled to JavaScript which is then by executed by `osascript`.
 
