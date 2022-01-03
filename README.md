@@ -8,6 +8,16 @@ Ad-hoc [ClojureScript](https://clojurescript.org/) scripting of Mac applications
 
 Experimental.
 
+# Installation
+
+[Install Babashka](https://github.com/babashka/babashka/#installation) then build with:
+
+``` shell
+$ bb build
+```
+
+Then place `out/obb` anywhere on your path.
+
 # Usage
 
 Evaluate an expression:
