@@ -11,10 +11,12 @@
           :out
           str/trim)))
 
-(defn release [& args]
+(defn prepend-v [s]
+  (if (str/starts-with? s "v")
+    s (str "v" s)))
+
+(defn release [{:keys [file version content-type]}]
   (let [ght (System/getenv "GITHUB_TOKEN")
-        file (first args)
-        version (second args)
         branch (current-branch)]
     (if (and ght (contains? #{"master" "main"} branch))
       (do (assert file "File name must be provided")
@@ -22,8 +24,9 @@
           (ghr/overwrite-asset {:org "babashka"
                                 :repo "obb"
                                 :file file
-                                :tag (str "v" version)
+                                :tag (prepend-v version)
                                 :draft true
-                                :prerelease (str/ends-with? version "SNAPSHOT")}))
+                                :prerelease (str/ends-with? version "SNAPSHOT")
+                                :content-type content-type}))
       (println "Skipping release artifact (no GITHUB_TOKEN or not on main branch)"))
     nil))

@@ -22,4 +22,6 @@
          upload-assets  {:doc    "Uploads jar and vsix to Github"
                          :depends [build]
                          :requires ([upload-release :as ur])
-                         :task    (ur/release "out/obb" "0.0.1-SNAPSHOT")}}}
+                         :task    (ur/release {:file "out/obb"
+                                               :version "0.0.1-SNAPSHOT"
+                                               :content-type "text/javascript"})}}}
