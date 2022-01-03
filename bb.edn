@@ -5,8 +5,11 @@
  :tasks {:requires [[babashka.fs :as fs]]
          :init (do (def target-dir "out")
                    (def executable-name "obb"))
+
          clean (fs/delete-tree target-dir)
+
          compile (clojure "-M -m cljs.main -co build.edn -c")
+
          build (do (run 'compile)
                    (let [bin-dir (str target-dir "/bin")
                          executable-path (str (fs/file bin-dir executable-name))]
@@ -15,6 +18,7 @@
                            (str "#!/usr/bin/env osascript -l JavaScript\n\n"
                                 (slurp "out/main.js")))
                      (shell (str "chmod u+x " executable-path))))
+
          upload-assets  {:doc    "Uploads jar and vsix to Github"
                          :depends [build]
                          :requires ([upload-release :as ur])
