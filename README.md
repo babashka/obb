@@ -78,6 +78,14 @@ SCI supports macros as first class citizens so you can write a few macros to dea
 - [Mac Automation Scripting Guide](https://developer.apple.com/library/archive/documentation/LanguagesUtilities/Conceptual/MacAutomationScriptingGuide/GettoKnowScriptEditor.html#//apple_ref/doc/uid/TP40016239-CH5-SW1)
 - [JXA Cookbook](https://github.com/JXA-Cookbook/JXA-Cookbook/wiki)
 
+## Tips and tricks
+
+### Explore app specific APIs
+
+Open `Script Editor.app`, go to `File` > `Open Dictionary` and select the
+application you would like to explore, e.g. `Spotify.app`.  After selection,
+select `JavaScript` instead of `AppleScript`.
+
 ## Build
 
 [Install Babashka](https://github.com/babashka/babashka/#installation). Then build with:
