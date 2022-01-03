@@ -3,7 +3,6 @@
          compile (clojure "-M -m cljs.main -co build.edn -c")
          build (do (run 'compile)
                    (spit "out/obb"
-                         (str "#!/usr/bin/osascript -l JavaScript\n\n"
-                              (slurp "out/main.js")
-                              "\n\nfunction run(args) { return io.zane.obb.run(args); }"))
+                         (str "#!/usr/bin/env osascript -l JavaScript\n\n"
+                              (slurp "out/main.js")))
                    (shell "chmod u+x out/obb"))}}

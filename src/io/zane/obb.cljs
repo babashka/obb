@@ -30,7 +30,7 @@
     (sci/eval-string s {:classes {'js goog/global
                                   :allow :all}})))
 
-(defn ^:export run [argv]
+(defn -main [argv]
   (enable-console-print!)
 
   (sci/alter-var-root sci/print-fn (constantly *print-fn*))
@@ -47,3 +47,5 @@
 
           :else
           (println summary))))
+
+(set! js/run -main)
