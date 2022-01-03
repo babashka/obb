@@ -10,4 +10,8 @@
                      (spit executable-path
                            (str "#!/usr/bin/env osascript -l JavaScript\n\n"
                                 (slurp "out/main.js")))
-                     (shell (str "chmod u+x " executable-path))))}}
+                     (shell (str "chmod u+x " executable-path))))
+         upload-assets  {:doc    "Uploads jar and vsix to Github"
+                         :depends [build]
+                         :requires ([upload-release :as ur])
+                         :task    (ur/release "out/obb" "0.0.1-SNAPSHOT")}}}
