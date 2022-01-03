@@ -1,11 +1,15 @@
-{:tasks {:requires [[babashka.fs :as fs]]
+{:paths ["bb"]
+ :deps  {borkdude/gh-release-artifact
+         {:git/url "https://github.com/borkdude/gh-release-artifact"
+          :sha     "a83ee8da47d56a80b6380cbb6b4b9274048067bd"}}
+ :tasks {:requires [[babashka.fs :as fs]]
          :init (do (def target-dir "out")
                    (def executable-name "obb"))
          clean (fs/delete-tree target-dir)
          compile (clojure "-M -m cljs.main -co build.edn -c")
          build (do (run 'compile)
                    (let [bin-dir (str target-dir "/bin")
-                         executable-path (str bin-dir "/" executable-name)]
+                         executable-path (str (fs/file bin-dir executable-name))]
                      (fs/create-dirs bin-dir)
                      (spit executable-path
                            (str "#!/usr/bin/env osascript -l JavaScript\n\n"
