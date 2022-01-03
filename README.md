@@ -11,13 +11,15 @@ Experimental.
 
 ## Installation
 
-[Install Babashka](https://github.com/babashka/babashka/#installation). Then build with:
+### Homebrew
 
 ``` shell
-$ bb build
+$ brew install babashka/brew/obb
 ```
 
-Then place `out/obb` anywhere on your path.
+### Manual
+
+Download from [Github releases](https://github.com/babashka/obb/releases).
 
 ## Usage
 
@@ -51,7 +53,7 @@ $ ./quit.cljs
 true
 ```
 
-## How does this tool work? 
+## How does this tool work?
 
 ClojureScript code is evaluated through [SCI](https://github.com/borkdude/sci), the same interpreter that powers [babashka](https://babashka.org/). SCI is compiled to JavaScript which is then by executed by `osascript`.
 
@@ -59,3 +61,13 @@ ClojureScript code is evaluated through [SCI](https://github.com/borkdude/sci), 
 
 - [Mac Automation Scripting Guide](https://developer.apple.com/library/archive/documentation/LanguagesUtilities/Conceptual/MacAutomationScriptingGuide/GettoKnowScriptEditor.html#//apple_ref/doc/uid/TP40016239-CH5-SW1)
 - [JXA Cookbook](https://github.com/JXA-Cookbook/JXA-Cookbook/wiki)
+
+## Build
+
+[Install Babashka](https://github.com/babashka/babashka/#installation). Then build with:
+
+``` shell
+$ bb build
+```
+
+Then place `out/obb` anywhere on your path.

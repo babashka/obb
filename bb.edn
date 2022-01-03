@@ -11,7 +11,6 @@
                    (def executable-name "obb")
                    (def bin-dir (str (fs/file target-dir "bin")))
                    (def executable-path (str (fs/file bin-dir executable-name)))
-                   (def tar-gz (str (fs/file target-dir (str executable-name ".tar.gz"))))
                    (def version (:version (edn/read-string (slurp "project.edn")))))
 
          clean (fs/delete-tree target-dir)
@@ -27,9 +26,10 @@
                      (shell (str "chmod u+x " executable-path))))
 
          upload-assets  {:doc    "Uploads jar and vsix to Github"
-                         :depends [build]
+                         ;; :depends [build]
                          :requires ([upload-release :as ur])
                          :task    (do
-                                    (shell "tar -czvf" tar-gz executable-path)
-                                    (ur/release {:file tar-gz
+                                    (fs/copy executable-path ".")
+                                    (shell "tar -czvf" "obb.tar.gz" executable-name)
+                                    (ur/release {:file "obb.tar.gz"
                                                  :version version}))}}}
