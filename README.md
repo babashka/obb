@@ -57,6 +57,22 @@ true
 
 ClojureScript code is evaluated through [SCI](https://github.com/borkdude/sci), the same interpreter that powers [babashka](https://babashka.org/). SCI is compiled to JavaScript which is then by executed by `osascript`.
 
+## Macros
+
+SCI supports macros as first class citizens so you can write a few macros to deal with interop boilerplate:
+
+``` clojure
+(defmacro ->clj [obj & interops]
+  (let [names (map #(clojure.string/replace (str %) #"[.-]" "") interops)
+        ks (mapv keyword names)
+        exprs (mapv #(list % obj) interops)]
+    `(zipmap ~ks [~@exprs])))
+
+(-> (js/Application "Spotify") (.-currentTrack) (->clj .artist .album .name))'
+;;=>
+{:artist "The Gathering", :album "How to Measure a Planet? (Deluxe Edition)", :name "Travel"}
+```
+
 ## References
 
 - [Mac Automation Scripting Guide](https://developer.apple.com/library/archive/documentation/LanguagesUtilities/Conceptual/MacAutomationScriptingGuide/GettoKnowScriptEditor.html#//apple_ref/doc/uid/TP40016239-CH5-SW1)
