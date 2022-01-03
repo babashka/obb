@@ -68,7 +68,7 @@ SCI supports macros as first class citizens so you can write a few macros to dea
         exprs (mapv #(list % obj) interops)]
     `(zipmap ~ks [~@exprs])))
 
-(-> (js/Application "Spotify") (.-currentTrack) (->clj .artist .album .name))'
+(-> (js/Application "Spotify") (.-currentTrack) (->clj .artist .album .name))
 ;;=>
 {:artist "The Gathering", :album "How to Measure a Planet? (Deluxe Edition)", :name "Travel"}
 ```
