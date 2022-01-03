@@ -11,7 +11,7 @@
          compile (clojure "-M -m cljs.main -co build.edn -c")
 
          build (do (run 'compile)
-                   (let [bin-dir (str target-dir "/bin")
+                   (let [bin-dir (str (fs/file target-dir "bin"))
                          executable-path (str (fs/file bin-dir executable-name))]
                      (fs/create-dirs bin-dir)
                      (spit executable-path
