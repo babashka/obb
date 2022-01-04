@@ -86,6 +86,12 @@ Open `Script Editor.app`, go to `File` > `Open Dictionary` and select the
 application you would like to explore, e.g. `Spotify.app`.  After selection,
 select `JavaScript` instead of `AppleScript`.
 
+## Sister projects
+
+- [babashka](https://github.com/babashka/babashka): Native, fast starting Clojure interpreter for scripting.
+- [nbb](https://github.com/babashka/nbb): Ad-hoc CLJS scripting on Node.js using SCI.
+- [scittle](https://github.com/babashka/scittle): The Small Clojure Interpreter exposed for usage in browser script tags.
+
 ## Build
 
 [Install Babashka](https://github.com/babashka/babashka/#installation). Then build with:
