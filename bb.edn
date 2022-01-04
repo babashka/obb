@@ -17,13 +17,14 @@
 
          compile (clojure "-M -m cljs.main -co build.edn -c")
 
-         build (do (run 'compile)
-                   (let []
-                     (fs/create-dirs bin-dir)
-                     (spit executable-path
-                           (str "#!/usr/bin/env osascript -l JavaScript\n\n"
-                                (slurp "out/main.js")))
-                     (shell (str "chmod u+x " executable-path))))
+         build (when (seq (fs/modified-since executable-path ["deps.edn" "src"]))
+                 (run 'compile)
+                 (let []
+                   (fs/create-dirs bin-dir)
+                   (spit executable-path
+                         (str "#!/usr/bin/env osascript -l JavaScript\n\n"
+                              (slurp "out/main.js")))
+                   (shell (str "chmod u+x " executable-path))))
 
          upload-assets  {:doc    "Uploads jar and vsix to Github"
                          :depends [build]
@@ -32,4 +33,8 @@
                                     (fs/copy executable-path ".")
                                     (shell "tar -czvf" "obb.tar.gz" executable-name)
                                     (ur/release {:file "obb.tar.gz"
-                                                 :version version}))}}}
+                                                 :version version}))}
+
+         test {:doc "Run integration tests"
+               :depends [build]
+               :task integration-tests/run-tests}}}
