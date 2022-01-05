@@ -1,7 +1,7 @@
 (ns obb.main
   (:require [obb.impl.main :as impl.main]))
 
-(defn -main [argv]
+(defn ^:export main [argv]
   (impl.main/main argv))
 
-(set! js/run -main)
+(set! js/globalThis.run main)

@@ -17,6 +17,10 @@
 
          compile (clojure "-M -m cljs.main -co build.edn -c")
 
+         shadow-server (shell "npx shadow-cljs server")
+
+         dev (shell "npx shadow-cljs release obb")
+
          build (when (seq (fs/modified-since executable-path ["deps.edn" "src"]))
                  (run 'compile)
                  (let []
