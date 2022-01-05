@@ -30,6 +30,15 @@
 (deftest expression-test
   (is (= 6 (obb "-e" "(+ 1 2 3)"))))
 
+(deftest object-specifier-var-ref-test
+  (is (str/includes? (obb* "-e"
+                           (pr-str '(do
+                                      (def ui-server (-> (js/Application "System Events")
+                                                         (.-applicationProcesses)
+                                                         (.byName "SystemUIServer")))
+                                      ui-server)))
+                     "SystemUIServer")))
+
 (defn parse-opts [opts]
   (let [[cmds opts] (split-with #(not (str/starts-with? % ":")) opts)]
     (into {:cmds cmds}
