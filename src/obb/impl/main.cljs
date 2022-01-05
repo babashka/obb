@@ -23,19 +23,31 @@
   [x]
   (js/ObjectSpecifier.hasInstance x))
 
+(defn not-object-specifier-pred [f]
+  (fn [x]
+    (when-not (object-specifier? x)
+      (f x))))
+
+(set! interop/invoke-instance-method impl.sci/invoke-instance-method)
+
+(set! interop/invoke-static-method impl.sci/invoke-static-method)
+
+(set! clojure/map? (not-object-specifier-pred map?))
+
+(set! clojure/meta (not-object-specifier-pred meta))
+
+(enable-console-print!)
+
+(sci/alter-var-root sci/print-fn (constantly *print-fn*))
+
+(def ctx (sci/init {:classes {'js goog/global
+                              :allow :all}}))
+
 (defn eval-string
   [s]
-  (with-redefs [interop/invoke-instance-method impl.sci/invoke-instance-method
-                interop/invoke-static-method impl.sci/invoke-static-method
-                clojure/map? (every-pred (complement object-specifier?) map?)]
-    (sci/eval-string s {:classes {'js goog/global
-                                  :allow :all}})))
+  (sci/eval-string* ctx s))
 
 (defn main [argv]
-  (enable-console-print!)
-
-  (sci/alter-var-root sci/print-fn (constantly *print-fn*))
-
   (let [args (js->clj argv)
         {:keys [arguments summary] {form :eval} :options} (cli/parse-opts args cli-options)]
     (cond (some? form)
