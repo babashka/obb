@@ -55,6 +55,8 @@
 (def print*
   ;; All output from osascript by default goes to stderr. To get around this
   ;; we use the Objective-C bridge to write directly to stdout.
+
+  ;; `delay` ensures that this import happens only when needed, and only once.
   (let [import (delay (.import js/ObjC "Foundation"))]
     (fn [s]
       @import
