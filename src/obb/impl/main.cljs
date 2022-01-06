@@ -64,10 +64,11 @@
 
 (defn prn
   [x]
-  (print*
-   (if (object-specifier? x)
-     (display-string x)
-     (pr-str x)))
+  (let [object-specifier-tag "#org.babashka.obb/object-specifier"]
+    (print*
+     (if (object-specifier? x)
+       (str object-specifier-tag " " (pr-str (display-string x)))
+       (pr-str x))))
   (print* \newline))
 
 (defn main [argv]
