@@ -84,7 +84,7 @@ select `JavaScript` instead of `AppleScript`.
 
 ### Application bundle
 
-Read [here](doc/application-bundle) how to create an application bundle from an obb script.
+Read [here](doc/application-bundle.md) how to create an application bundle from an obb script.
 
 ## Sister projects
 
