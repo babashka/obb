@@ -11,7 +11,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Fixed
 
-- #10: Fix crash when `clojure.core/meta` is called on an object specifier.
+- [#10](https://github.com/babashka/obb/issues/10): Fix crash when `clojure.core/meta` is called on an object specifier.
 
 ## [0.0.1] - 2022-01-03
 

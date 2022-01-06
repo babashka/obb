@@ -43,4 +43,7 @@
 
          test {:doc "Run integration tests"
                :depends [build]
-               :task integration-tests/run-tests}}}
+               :task integration-tests/run-tests}
+
+         changelog {:doc "Updates changelog with links to issues"
+                    :task (load-file "bb/changelog.clj")}}}
