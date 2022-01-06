@@ -101,3 +101,8 @@ $ bb build
 ```
 
 Then place `out/obb` anywhere on your path.
+
+## Dev
+
+To develop `obb` you can use the `bb dev` task which starts a shadow-cljs server
+and a file watcher.
