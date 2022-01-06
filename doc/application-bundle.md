@@ -1,7 +1,7 @@
 # Creating an application bundle
 
 In this document we describe how to get from an obb script, say, `examples/choice.cljs`
-(see [../examples/choice.cljs](examples)) to an application bundle `Choice.app`.
+(see [examples](../examples/choice.cljs)) to an application bundle `Choice.app`.
 
 ## Copy obb to app.js
 
