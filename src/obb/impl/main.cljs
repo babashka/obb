@@ -1,5 +1,5 @@
 (ns obb.impl.main
-  (:refer-clojure :exclude [print slurp])
+  (:refer-clojure :exclude [prn slurp])
   (:require [clojure.core :as clojure]
             [clojure.tools.cli :as cli]
             [obb.impl.sci :as impl.sci]
@@ -52,17 +52,29 @@
   [s]
   (sci/eval-string* ctx s))
 
-(defn print
+(def print*
+  ;; All output from osascript by default goes to stderr. To get around this
+  ;; we use the Objective-C bridge to write directly to stdout.
+  (let [import (delay (.import js/ObjC "Foundation"))]
+    (fn [s]
+      @import
+      (-> (.dataUsingEncoding (js/$.NSString.alloc.initWithString (str s))
+                              js/$.NSUTF8StringEncoding)
+          (js/$.NSFileHandle.fileHandleWithStandardOutput.writeData)))))
+
+(defn prn
   [x]
-  (if (object-specifier? x)
-    (clojure/print (display-string x))
-    (pr x)))
+  (print*
+   (if (object-specifier? x)
+     (display-string x)
+     (pr-str x)))
+  (print* \newline))
 
 (defn main [argv]
   (let [args (js->clj argv)
         {:keys [arguments summary] {form :eval} :options} (cli/parse-opts args cli-options)]
     (cond (some? form)
-          (print (eval-string form))
+          (prn (eval-string form))
 
           (and (seq arguments)
                (= 1 (count arguments)))
