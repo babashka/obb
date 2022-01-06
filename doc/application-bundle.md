@@ -61,3 +61,17 @@ $ open .
 ```
 
 and double click on `Choice.app`. Choose your favorite fruit!
+
+## Quarantine attribute
+
+If you want to distribute this application to other computers, you may have to
+remove quarantine attribute from it (on the other computers) when it is
+downloaded it via a browser.
+
+```
+$ sudo xattr -r -d com.apple.quarantine /path/to/Choice.app
+```
+
+However, if you obtain the application bundle via a terminal, e.g. using `curl`,
+then this seems to bypass the quarantine mechanism. A similar thing may happen
+if you install it via `brew cask install`.
