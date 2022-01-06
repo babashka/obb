@@ -9,8 +9,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
-- Print all values, including object specifiers, readably.
-- Stop printing result of last expression when evaluating a file.
+- [#17] Print all values, including object specifiers, readably.
+- [#18] Don't print the result of last expression when evaluating a file.
 
 ## [0.0.2] - 2022-01-05
 
