@@ -13,4 +13,4 @@
    #js {:withPrompt "Select your favorite fruit:"
         :defaultItems #js ["Apple"]}))
 
-favorite-fruit
+(prn favorite-fruit)
