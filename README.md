@@ -82,6 +82,10 @@ Open `Script Editor.app`, go to `File` > `Open Dictionary` and select the
 application you would like to explore, e.g. `Spotify.app`.  After selection,
 select `JavaScript` instead of `AppleScript`.
 
+### Application bundle
+
+Read [here](doc/application-bundle) how to create an application bundle from an obb script.
+
 ## Sister projects
 
 - [babashka](https://github.com/babashka/babashka): Native, fast starting Clojure interpreter for scripting.
