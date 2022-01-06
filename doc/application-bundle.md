@@ -49,7 +49,7 @@ This will create `Choice.app` in the current working directory.
 Lastly, copy `choice.cljs` into the application bundle:
 
 ```
-$ cp examples/choice.cljs MyApp.app/Contents/Resources/Scripts
+$ cp examples/choice.cljs Choice.app/Contents/Resources/Scripts
 ```
 
 ## Run!
