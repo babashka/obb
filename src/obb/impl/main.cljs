@@ -58,8 +58,7 @@
   (let [import (delay (.import js/ObjC "Foundation"))]
     (fn [s]
       @import
-      (-> (.dataUsingEncoding (js/$.NSString.alloc.initWithString (str s))
-                              js/$.NSUTF8StringEncoding)
+      (-> (.dataUsingEncoding (js/ObjC.wrap s) js/$.NSUTF8StringEncoding)
           (js/$.NSFileHandle.fileHandleWithStandardOutput.writeData)))))
 
 (defn prn
