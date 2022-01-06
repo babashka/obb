@@ -9,14 +9,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
-- [#17] Print all values, including object specifiers, readably.
-- [#18] Don't print the result of last expression when evaluating a file.
+- Print all values, including object specifiers, readably. [#17](https://github.com/babashka/obb/issues/17)
+- Don't print the result of last expression when evaluating a file. [#18](https://github.com/babashka/obb/issues/18)
 
 ## [0.0.2] - 2022-01-05
 
 ### Fixed
 
-- [#10](https://github.com/babashka/obb/issues/10): Fix crash when `clojure.core/meta` is called on an object specifier.
+- Fix crash when `clojure.core/meta` is called on an object specifier. [#10](https://github.com/babashka/obb/issues/10)
 
 ## [0.0.1] - 2022-01-03
 
