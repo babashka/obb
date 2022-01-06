@@ -27,12 +27,12 @@ Evaluate an expression:
 
 ``` shell
 $ obb -e '(-> (js/Application "Safari") (.-documents) (aget 0) (.url))'
-https://clojure.org/
+"https://clojure.org/"
 ```
 
 ``` shell
 $ obb -e '(-> (js/Application "Google Chrome") (.-windows) (aget 0) (.activeTab) (.title))'
-Slack | obb | clojurians
+#js ["GitHub - babashka/obb: Ad-hoc ClojureScript scripting of Mac applications via Apple's Open Scripting Architecture."]
 ```
 
 Or evaluate a file:
@@ -43,14 +43,10 @@ $ obb examples/choice.cljs
 
 Or make an executable script by using `obb` in a [shebang](https://en.wikipedia.org/wiki/Shebang_(Unix)):
 
-``` shell
-$ cat quit.cljs
+``` clojure
 #!/usr/bin/env obb
 (-> (js/Application "Safari")
     (.quit))
-$ chmod u+x quit.cljs
-$ ./quit.cljs
-true
 ```
 
 ## How does this tool work?

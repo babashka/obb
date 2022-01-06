@@ -7,6 +7,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Changed
+
+- Print values that are not object specifiers with `clojure.core/prn`.
+- Stop printing result of last expression when evaluating a file.
+
 ## [0.0.2] - 2022-01-05
 
 ### Fixed

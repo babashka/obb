@@ -13,4 +13,4 @@
                 (.-emails)
                 (aget 0))]
   (when (.exists match)
-    (.value match)))
+    (prn (.value match))))

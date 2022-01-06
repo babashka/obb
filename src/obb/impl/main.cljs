@@ -1,5 +1,5 @@
 (ns obb.impl.main
-  (:refer-clojure :exclude [slurp])
+  (:refer-clojure :exclude [print slurp])
   (:require [clojure.core :as clojure]
             [clojure.tools.cli :as cli]
             [obb.impl.sci :as impl.sci]
@@ -17,6 +17,11 @@
 (defn slurp
   [x]
   (.read @app (js/Path x #js {})))
+
+(defn display-string
+  "Returns the JXA display string for object specifier ob."
+  [os]
+  (js/Automation.getDisplayString os))
 
 (defn object-specifier?
   "Returns true if x is an object specifier."
@@ -47,11 +52,17 @@
   [s]
   (sci/eval-string* ctx s))
 
+(defn print
+  [x]
+  (if (object-specifier? x)
+    (clojure/print (display-string x))
+    (pr x)))
+
 (defn main [argv]
   (let [args (js->clj argv)
         {:keys [arguments summary] {form :eval} :options} (cli/parse-opts args cli-options)]
     (cond (some? form)
-          (eval-string form)
+          (print (eval-string form))
 
           (and (seq arguments)
                (= 1 (count arguments)))
@@ -59,4 +70,5 @@
             (eval-string form))
 
           :else
-          (println summary))))
+          (println summary))
+    js/undefined)) ; suppress printing of return value
