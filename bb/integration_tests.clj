@@ -8,11 +8,16 @@
   (println "===" (-> m :var meta :name))
   (println))
 
+(def cli-opts (atom nil))
+
 (defn obb** [x & xs]
   (let [[opts args] (if (map? x)
                       [x xs]
                       [nil (cons x xs)])]
-    (-> (process (into ["out/bin/obb"] args)
+    (-> (process (into
+                  (if (:dev @cli-opts)
+                    ["osascript" "out/obb.js"]
+                    ["out/bin/obb"]) args)
                  (merge {:out :string
                          :err :inherit}
                         opts)))))
@@ -46,18 +51,10 @@
             [(keyword (subs arg-name 1)) arg-val]))))
 
 (defn run-tests [& args]
-  (let [opts (parse-opts args)
+  (let [args (map str args)
+        opts (parse-opts args)
+        _ (reset! cli-opts opts)
         {:keys [error fail]}
-        (if (empty? (dissoc opts :cmds))
-          (t/run-tests 'integration-tests)
-          (when-let [o (:only opts)]
-            (let [o (symbol o)]
-              (if (qualified-symbol? o)
-                (do
-                  (println "Testing" o)
-                  (binding [t/*report-counters* (atom t/*initial-report-counters*)]
-                    (t/test-var (resolve o))
-                    @t/*report-counters*))
-                (t/run-tests o)))))]
+        (t/run-tests 'integration-tests)]
     (when (pos? (+ error fail))
       (throw (ex-info "Tests failed" {:babashka/exit 1})))))

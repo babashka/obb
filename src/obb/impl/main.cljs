@@ -23,18 +23,23 @@
   [x]
   (js/ObjectSpecifier.hasInstance x))
 
-(defn not-object-specifier-pred [f]
+(defn not-object-specifier-pred-1 [f]
   (fn [x]
     (when-not (object-specifier? x)
       (f x))))
+
+(defn not-object-specifier-pred-2 [f]
+  (fn [x y]
+    (when-not (object-specifier? x)
+      (f x y))))
 
 (set! interop/invoke-instance-method impl.sci/invoke-instance-method)
 
 (set! interop/invoke-static-method impl.sci/invoke-static-method)
 
-(set! clojure/map? (not-object-specifier-pred map?))
+(set! clojure/map? (not-object-specifier-pred-1 map?))
 
-(set! clojure/meta (not-object-specifier-pred meta))
+(set! clojure/meta (not-object-specifier-pred-1 meta))
 
 (enable-console-print!)
 

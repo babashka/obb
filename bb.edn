@@ -47,5 +47,9 @@
                :depends [build]
                :task integration-tests/run-tests}
 
+         dev-test {:doc "Run integration tests while `bb dev` is running"
+                   :requires ([integration-tests :as it])
+                   :task (it/run-tests :dev true)}
+
          changelog {:doc "Updates changelog with links to issues"
                     :task (load-file "bb/changelog.clj")}}}
