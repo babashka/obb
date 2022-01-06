@@ -19,9 +19,9 @@
 
          shadow-server (shell "npx shadow-cljs server")
 
-         shadow-dev-release (shell "npx shadow-cljs release obb")
+         shadow-dev-compile (shell "npx shadow-cljs release obb")
 
-         ;; TODO: make watch job which re-runs shadow-dev-release against shadow-server
+         dev (load-file "bb/watch.clj")
 
          build (when (seq (fs/modified-since executable-path ["deps.edn" "src"]))
                  (run 'compile)
