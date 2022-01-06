@@ -28,7 +28,8 @@
       (edn/read-string res))))
 
 (deftest expression-test
-  (is (= 6 (obb "-e" "(+ 1 2 3)"))))
+  (is (= 6 (obb "-e" "(+ 1 2 3)")))
+  (is (= "Hello, world!" (obb "-e" "\"Hello, world!\""))))
 
 (deftest object-specifier-var-ref-test
   (is (str/includes? (obb* "-e"
@@ -38,6 +39,10 @@
                                                          (.byName "SystemUIServer")))
                                       ui-server)))
                      "SystemUIServer")))
+
+(deftest object-specifier-tagged-literal-test
+  (is (str/starts-with? (obb* "-e" (pr-str '(js/Application "Safari")))
+                        "#org.babashka.obb/object-specifier")))
 
 (defn parse-opts [opts]
   (let [[cmds opts] (split-with #(not (str/starts-with? % ":")) opts)]
