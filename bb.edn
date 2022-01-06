@@ -17,7 +17,9 @@
 
          compile (clojure "-M -m cljs.main -co build.edn -c")
 
-         shadow-server (shell "npx shadow-cljs server")
+         shadow-server (do
+                         (shell "npm install")
+                         (shell "npx shadow-cljs server"))
 
          shadow-dev-compile (shell "npx shadow-cljs release obb")
 
