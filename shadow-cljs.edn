@@ -1,0 +1,5 @@
+{:deps {:aliases [:dev]}
+ :builds {:obb {:target :browser
+                :modules {:obb {:entries [obb.main]}}
+                :output-dir "out"
+                :release {:compiler-options {:optimizations :simple}}}}}
