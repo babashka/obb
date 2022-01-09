@@ -22,7 +22,7 @@ jobs:
 
       - name: Register bb clojure as clojure command
         run: |
-          echo -e '#!/usr/bin/env bash\n\nbb clojure $&' > /usr/local/bin/clojure
+          echo -e '#!/usr/bin/env bash\n\nbb --clojure $&' > /usr/local/bin/clojure
           chmod +x /usr/local/bin/clojure
 
       - uses: actions/checkout@v2
