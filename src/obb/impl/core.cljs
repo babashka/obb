@@ -16,6 +16,7 @@
   (.-obb_lib_dir js/globalThis))
 
 (defn slurp
+  "Like `clojure.core/slurp` but only accepts paths."
   [x]
   (.read @app (js/Path x #js {})))
 
@@ -27,7 +28,7 @@
                {:source ""})))
 
 (defn display-string
-  "Returns the JXA display string for object specifier ob."
+  "Returns the JXA display string for an object specifier."
   [os]
   (js/Automation.getDisplayString os))
 
@@ -70,6 +71,9 @@
           (js/$.NSFileHandle.fileHandleWithStandardOutput.writeData)))))
 
 (defn prn
+  "Like `clojure.core/prn`, but will not crash if called on an object specifier.
+  Object specifiers are printed as their display string with the prefix
+  #org.babashka.obb/object-specifier."
   [x]
   (let [object-specifier-tag "#org.babashka.obb/object-specifier"]
     (print*
@@ -83,6 +87,7 @@
                                     :allow :all}})))
 
 (defn eval-string
+  "Evaluates a string using `ctx` as the context."
   [s]
   (sci/eval-string* @ctx s))
 
