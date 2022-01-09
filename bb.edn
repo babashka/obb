@@ -34,12 +34,11 @@
                                                               "shadow-cljs.edn"
                                                               "src"]))
                  (run 'shadow-release)
-                 (let []
-                   (fs/create-dirs bin-dir)
-                   (spit executable-path
-                         (str "#!/usr/bin/env osascript -l JavaScript\n\n"
-                              (slurp "out/obb.js")))
-                   (shell (str "chmod u+x " executable-path))))
+                 (fs/create-dirs bin-dir)
+                 (spit executable-path
+                       (str "#!/usr/bin/env osascript -l JavaScript\n\n"
+                            (slurp "out/obb.js")))
+                 (shell (str "chmod u+x " executable-path)))
 
          tar {:depends [build]
               :task (fs/with-temp-dir [tmp-dir {}]
