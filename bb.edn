@@ -33,8 +33,10 @@
          build (when (seq (fs/modified-since executable-path ["deps.edn"
                                                               "shadow-cljs.edn"
                                                               "src"]))
+                 (println "Compiling obb")
                  (run 'shadow-release)
                  (fs/create-dirs bin-dir)
+                 (println "Preparing executable")
                  (spit executable-path
                        (str "#!/usr/bin/env osascript -l JavaScript\n\n"
                             (slurp "out/obb.js")))
