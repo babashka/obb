@@ -5,17 +5,18 @@
           :sha     "a83ee8da47d56a80b6380cbb6b4b9274048067bd"}}
 
  :tasks {:requires [[babashka.fs :as fs]
+                    [clojure.string :as str]
                     [clojure.edn :as edn]]
 
-         :init (do (def target-dir "out")
+         :init (do (def target-dir (fs/absolutize "out"))
                    (def executable-name "obb")
                    (def bin-dir (str (fs/file target-dir "bin")))
+                   (def main-js (str (fs/file target-dir "obb.js")))
                    (def executable-path (str (fs/file bin-dir executable-name)))
-                   (def version (:version (edn/read-string (slurp "project.edn")))))
+                   (def version (:version (edn/read-string (slurp "project.edn"))))
+                   (def tar-file (fs/file target-dir "obb.tar.gz")))
 
          clean (fs/delete-tree target-dir)
-
-         compile (clojure "-M -m cljs.main -co build.edn -c")
 
          shadow-server (do
                          (shell "npm install")
@@ -25,23 +26,41 @@
 
          dev (load-file "bb/watch.clj")
 
-         build (when (seq (fs/modified-since executable-path ["deps.edn" "src"]))
-                 (run 'compile)
+         shadow-release (shell "npx shadow-cljs release obb"
+                               "--config-merge"
+                               "{:compiler-options {:optimizations :advanced}}")
+
+         build (when (seq (fs/modified-since executable-path ["deps.edn"
+                                                              "shadow-cljs.edn"
+                                                              "src"]))
+                 (run 'shadow-release)
                  (let []
                    (fs/create-dirs bin-dir)
                    (spit executable-path
                          (str "#!/usr/bin/env osascript -l JavaScript\n\n"
-                              (slurp "out/main.js")))
+                              (slurp "out/obb.js")))
                    (shell (str "chmod u+x " executable-path))))
 
+         tar {:depends [build]
+              :task (fs/with-temp-dir [tmp-dir {}]
+                      (fs/copy executable-path tmp-dir)
+                      (fs/copy "script/brew_install.sh" tmp-dir)
+                      (let [libexec (fs/file tmp-dir "libexec")]
+                        (fs/create-dirs libexec)
+                        (run! (fn [js-file]
+                                (when-not (contains? #{"obb.js" "inferred_externs.js"}
+                                                     (fs/file-name js-file))
+                                  (fs/copy js-file (fs/file libexec (fs/file-name js-file)))))
+                              (fs/glob "out" "*.js"))
+                        (shell {:dir (str tmp-dir)}
+                               "tar -czvf" "obb.tar.gz" executable-name "brew_install.sh" "libexec")
+                        (fs/copy (fs/file tmp-dir "obb.tar.gz") tar-file {:replace-existing true})))}
+
          upload-assets  {:doc    "Uploads jar and vsix to Github"
-                         :depends [build]
+                         :depends [tar]
                          :requires ([upload-release :as ur])
-                         :task    (do
-                                    (fs/copy executable-path ".")
-                                    (shell "tar -czvf" "obb.tar.gz" executable-name)
-                                    (ur/release {:file "obb.tar.gz"
-                                                 :version version}))}
+                         :task    (ur/release {:file tar-file
+                                               :version version})}
 
          test {:doc "Run integration tests"
                :depends [build]

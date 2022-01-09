@@ -1,6 +1,9 @@
 {:deps {:aliases [:dev]}
  :builds {:obb {:target :browser
-                :modules {:obb {:entries [obb.main]}}
+                :modules {:obb {:entries [obb.main]}
+                          :obb_repl {:entries [obb.impl.repl]
+                                     :depends-on #{:obb}}}
                 :output-dir "out"
                 :release {:compiler-options {:optimizations :simple}}}}
+ ;; used for detecting when server is finished loading
  :nrepl {:port 13337}}
