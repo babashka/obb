@@ -9,7 +9,7 @@
   (let [args (js->clj argv)
         {:keys [arguments summary] {form :eval} :options} (cli/parse-opts args cli-options)]
     (cond (some? form)
-          (prn (impl.core/eval-string form))
+          (impl.core/prn (impl.core/eval-string form))
 
           (and (seq arguments)
                (= 1 (count arguments)))
