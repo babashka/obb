@@ -3,15 +3,19 @@
   (:require [clojure.string :as string]
             [obb.impl.core :as impl.core :refer [slurp ctx prefix]]))
 
-(def help
+(def version-line
   (let [version (io/inline-edn-value "project.edn" :version)]
-    (str "obb v" version
-         "\n\nUsage:
+    (str "obb v" version)))
+
+(def help
+  (str version-line
+       "\n\nUsage:
   obb <file>
   obb -e <expr>
 
 Options:
-  -e --eval  Evaluate an expression.")))
+  -e --eval  Evaluate an expression.
+  --version  Print version information and exit."))
 
 (defn parse-args
   [args]
@@ -24,6 +28,8 @@ Options:
         (case farg
           ("-e" "--eval") (recur (assoc opts :expr (first nargs))
                                  (next nargs))
+          "--version" (recur (assoc opts :version true)
+                             nargs)
           (if-not (or (:expr args)
                       (:script args)
                       (string/starts-with? farg "-"))
@@ -31,8 +37,11 @@ Options:
             (throw (ex-info (str "Unrecognized options:" args) {}))))))))
 
 (defn main [argv]
-  (let [{:keys [expr script]} (-> argv (js->clj) (parse-args))]
-    (cond (some? expr)
+  (let [{:keys [expr script version]} (-> argv (js->clj) (parse-args))]
+    (cond version
+          (println version-line)
+
+          (some? expr)
           (impl.core/prn (impl.core/eval-string expr))
 
           (some? script)
