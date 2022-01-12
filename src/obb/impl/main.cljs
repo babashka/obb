@@ -39,7 +39,7 @@ Options:
 (defn main [argv]
   (let [{:keys [expr script version]} (-> argv (js->clj) (parse-args))]
     (cond version
-          (println version-line)
+          (impl.core/println version-line)
 
           (some? expr)
           (impl.core/prn (impl.core/eval-string expr))

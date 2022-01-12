@@ -51,9 +51,7 @@
 
 (deftest version-test
   (is (re-matches #"obb v[\d]+\.[\d]+\.[\d]+(\-SNAPSHOT)?\n"
-                  (-> (obb** "--version")
-                      check
-                      :err))))
+                  (obb* "--version"))))
 
 (defn parse-opts [opts]
   (let [[cmds opts] (split-with #(not (str/starts-with? % ":")) opts)]

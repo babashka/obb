@@ -1,5 +1,5 @@
 (ns obb.impl.core
-  (:refer-clojure :exclude [prn slurp])
+  (:refer-clojure :exclude [newline println prn slurp])
   (:require [clojure.core :as clojure]
             [obb.impl.sci :as impl.sci]
             [sci.core :as sci]
@@ -70,6 +70,10 @@
       (-> (.dataUsingEncoding (js/ObjC.wrap s) js/$.NSUTF8StringEncoding)
           (js/$.NSFileHandle.fileHandleWithStandardOutput.writeData)))))
 
+(defn newline
+  []
+  (print* \newline))
+
 (defn prn
   "Like `clojure.core/prn`, but will not crash if called on an object specifier.
   Object specifiers are printed as their display string with the prefix
@@ -80,7 +84,12 @@
      (if (object-specifier? x)
        (str object-specifier-tag " " (pr-str (display-string x)))
        (pr-str x))))
-  (print* \newline))
+  (newline))
+
+(defn println
+  [s]
+  (print* s)
+  (newline))
 
 (def ctx (atom (sci/init {:load-fn load-fn
                           :classes {'js goog/global
