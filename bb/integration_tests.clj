@@ -49,6 +49,10 @@
   (is (str/starts-with? (obb* "-e" (pr-str '(js/Application "Safari")))
                         "#org.babashka.obb/object-specifier")))
 
+(deftest version-test
+  (is (re-matches #"obb v[\d]+\.[\d]+\.[\d]+(\-SNAPSHOT)?\n"
+                  (obb* "--version"))))
+
 (defn parse-opts [opts]
   (let [[cmds opts] (split-with #(not (str/starts-with? % ":")) opts)]
     (into {:cmds cmds}
