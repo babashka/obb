@@ -19,7 +19,7 @@
                     ["osascript" "out/obb.js"]
                     ["out/bin/obb"]) args)
                  (merge {:out :string
-                         :err :inherit}
+                         :err :string}
                         opts)))))
 
 (defn obb* [& xs]
@@ -48,6 +48,12 @@
 (deftest object-specifier-tagged-literal-test
   (is (str/starts-with? (obb* "-e" (pr-str '(js/Application "Safari")))
                         "#org.babashka.obb/object-specifier")))
+
+(deftest version-test
+  (is (re-matches #"obb v[\d]+\.[\d]+\.[\d]+(\-SNAPSHOT)?\n"
+                  (-> (obb** "--version")
+                      check
+                      :err))))
 
 (defn parse-opts [opts]
   (let [[cmds opts] (split-with #(not (str/starts-with? % ":")) opts)]
