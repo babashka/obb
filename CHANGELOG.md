@@ -9,12 +9,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
-<<<<<<< HEAD
 - Add support for `--version`. [#20](https://github.com/babashka/obb/issues/20)
-- Add a more informative help message.
-=======
 - Add a more informative help message. [#25](https://github.com/babashka/obb/issues/25)
->>>>>>> main
 
 ### Changed
 
