@@ -34,6 +34,7 @@
                                                               "shadow-cljs.edn"
                                                               "src"]))
                  (println "Compiling obb")
+                 (fs/copy "project.edn" "resources" {:replace-existing true})
                  (run 'shadow-release)
                  (fs/create-dirs bin-dir)
                  (println "Preparing executable")

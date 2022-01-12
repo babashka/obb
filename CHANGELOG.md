@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+- Add a more informative help message.
+
 ### Changed
 
 - Print all values, including object specifiers, readably. [#17](https://github.com/babashka/obb/issues/17)
