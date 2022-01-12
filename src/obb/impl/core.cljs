@@ -87,6 +87,8 @@
   (newline))
 
 (defn println
+  "Like `clojure.core/println`, but will not crash if called on an object
+  specifier. "
   [s]
   (print* s)
   (newline))
