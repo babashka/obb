@@ -19,7 +19,7 @@
                     ["osascript" "out/obb.js"]
                     ["out/bin/obb"]) args)
                  (merge {:out :string
-                         :err :string}
+                         :err :inherit}
                         opts)))))
 
 (defn obb* [& xs]
