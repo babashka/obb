@@ -32,7 +32,7 @@ $ obb -e '(-> (js/Application "Safari") (.-documents) (aget 0) (.url))'
 
 ``` shell
 $ obb -e '(-> (js/Application "Google Chrome") (.-windows) (aget 0) (.activeTab) (.title))'
-#js ["GitHub - babashka/obb: Ad-hoc ClojureScript scripting of Mac applications via Apple's Open Scripting Architecture."]
+#js ["GitHub - babashka/obb: Ad-hoc ClojureScript scripting of Mac applications"]
 ```
 
 Or evaluate a file:
