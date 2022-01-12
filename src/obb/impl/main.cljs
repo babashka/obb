@@ -6,12 +6,11 @@
 (def help
   (let [version (io/inline-edn-value "project.edn" :version)]
     (str "obb v" version
-         "\n"
-         "\nUsage:
+         "\n\nUsage:
   obb <file>
   obb -e <expr>
 
-  Options:
+Options:
   -e --eval  Evaluate an expression.")))
 
 (defn parse-args
