@@ -1,7 +1,8 @@
 (ns obb.impl.main
   (:require-macros [obb.impl.io :as io])
   (:require [clojure.string :as string]
-            [obb.impl.core :as impl.core :refer [slurp ctx prefix]]))
+            [obb.impl.core :as impl.core :refer [slurp ctx prefix]]
+            [sci.core :as sci]))
 
 (def version-line
   (let [version (io/inline-edn-value "project.edn" :version)]
@@ -33,11 +34,11 @@ Options:
           (if-not (or (:expr args)
                       (:script args)
                       (string/starts-with? farg "-"))
-            (assoc opts :script farg)
+            (assoc opts :script farg :args nargs)
             (throw (ex-info (str "Unrecognized options:" args) {}))))))))
 
 (defn main [argv]
-  (let [{:keys [expr script version]} (-> argv (js->clj) (parse-args))]
+  (let [{:keys [expr script version args]} (-> argv (js->clj) (parse-args))]
     (cond version
           (impl.core/println version-line)
 
@@ -46,6 +47,7 @@ Options:
 
           (some? script)
           (let [form (impl.core/slurp script)]
+            (sci/alter-var-root impl.core/command-line-args (constantly args))
             (impl.core/eval-string form))
 
           :else

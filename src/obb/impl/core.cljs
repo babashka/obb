@@ -5,6 +5,10 @@
             [sci.core :as sci]
             [sci.impl.interop :as interop]))
 
+(def core-ns (sci/create-ns 'clojure.core nil))
+
+(def command-line-args (sci/new-dynamic-var '*command-line-args* nil {:ns core-ns}))
+
 (def app
   (delay (let [app (js/Application.currentApplication)]
            (set! (.-includeStandardAdditions app) true)
@@ -93,9 +97,13 @@
   (print* s)
   (newline))
 
-(def ctx (atom (sci/init {:load-fn load-fn
-                          :classes {'js goog/global
-                                    :allow :all}})))
+(def ctx
+  (-> {:load-fn load-fn
+       :namespaces {'clojure.core {'*command-line-args* command-line-args}}
+       :classes {'js goog/global
+                 :allow :all}}
+      (sci/init)
+      (atom)))
 
 (defn eval-string
   "Evaluates a string using `ctx` as the context."

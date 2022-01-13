@@ -1,4 +1,5 @@
 (ns integration-tests
+  (:import [java.io File])
   (:require [babashka.process :refer [process check]]
             [clojure.edn :as edn]
             [clojure.string :as str]
@@ -19,16 +20,26 @@
                     ["osascript" "out/obb.js"]
                     ["out/bin/obb"]) args)
                  (merge {:out :string
-                         :err :inherit}
+                         :err :string}
                         opts)))))
 
-(defn obb* [& xs]
+(defn obb-out-str [& xs]
   (-> (apply obb** xs)
-      check
-      :out))
+      (check)
+      (:out)))
+
+(defn obb-err-str [& xs]
+  (-> (apply obb** xs)
+      (check)
+      (:err)))
 
 (defn obb [& args]
-  (let [res (apply obb* args)]
+  (let [res (apply obb-out-str args)]
+    (when (string? res)
+      (edn/read-string res))))
+
+(defn obb-err [& args]
+  (let [res (apply obb-err-str args)]
     (when (string? res)
       (edn/read-string res))))
 
@@ -37,21 +48,28 @@
   (is (= "Hello, world!" (obb "-e" "\"Hello, world!\""))))
 
 (deftest object-specifier-var-ref-test
-  (is (str/includes? (obb* "-e"
-                           (pr-str '(do
-                                      (def ui-server (-> (js/Application "System Events")
-                                                         (.-applicationProcesses)
-                                                         (.byName "SystemUIServer")))
-                                      ui-server)))
+  (is (str/includes? (obb-out-str "-e"
+                                  (pr-str '(do
+                                             (def ui-server (-> (js/Application "System Events")
+                                                                (.-applicationProcesses)
+                                                                (.byName "SystemUIServer")))
+                                             ui-server)))
                      "SystemUIServer")))
 
 (deftest object-specifier-tagged-literal-test
-  (is (str/starts-with? (obb* "-e" (pr-str '(js/Application "Safari")))
+  (is (str/starts-with? (obb-out-str "-e" (pr-str '(js/Application "Safari")))
                         "#org.babashka.obb/object-specifier")))
 
 (deftest version-test
   (is (re-matches #"obb v[\d]+\.[\d]+\.[\d]+(\-SNAPSHOT)?\n"
-                  (obb* "--version"))))
+                  (obb-out-str "--version"))))
+
+(deftest command-line-args-test
+  (let [temp-file (doto (File/createTempFile "command-line-args-test" ".cljs")
+                    (.deleteOnExit))]
+    (spit temp-file '(prn *command-line-args*))
+    (let [args '("1" "2" "3")]
+      (is (= args (apply obb-err (.getAbsolutePath temp-file) args))))))
 
 (defn parse-opts [opts]
   (let [[cmds opts] (split-with #(not (str/starts-with? % ":")) opts)]
