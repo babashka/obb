@@ -1,9 +1,7 @@
 (ns obb.impl.core
   (:refer-clojure :exclude [newline println prn slurp])
   (:require [clojure.core :as clojure]
-            [obb.impl.sci :as impl.sci]
-            [sci.core :as sci]
-            [sci.impl.interop :as interop]))
+            [sci.core :as sci]))
 
 (def core-ns (sci/create-ns 'clojure.core nil))
 
@@ -50,10 +48,6 @@
   (fn [x y]
     (when-not (object-specifier? x)
       (f x y))))
-
-(set! interop/invoke-instance-method impl.sci/invoke-instance-method)
-
-(set! interop/invoke-static-method impl.sci/invoke-static-method)
 
 (set! clojure/map? (not-object-specifier-pred-1 map?))
 
