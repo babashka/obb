@@ -16,3 +16,7 @@
 node_modules
 pom.xml
 pom.xml.asc
+node_modules
+.shadow-cljs
+.clj-kondo/babashka
+.clj-kondo/rewrite-clj
