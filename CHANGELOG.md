@@ -5,17 +5,20 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [Unreleased]
+## [0.0.3] - 2022-03-09
 
 ### Added
 
 - Add support for `--version`. [#20](https://github.com/babashka/obb/issues/20)
 - Add a more informative help message. [#25](https://github.com/babashka/obb/issues/25)
+- Add support for `*command-line-args*` [#15](https://github.com/babashka/obb/issues/15)
 
 ### Changed
 
 - Print all values, including object specifiers, readably. [#17](https://github.com/babashka/obb/issues/17)
 - Don't print the result of last expression when evaluating a file. [#18](https://github.com/babashka/obb/issues/18)
+- Upgrade to SCI 0.3.2
+- Remove unnecessary patches for SCI
 
 ## [0.0.2] - 2022-01-05
 
