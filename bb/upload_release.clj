@@ -19,7 +19,7 @@
 (defn release [{:keys [file version content-type]}]
   (let [ght (System/getenv "GITHUB_TOKEN")
         branch (current-branch)]
-    (if (and ght true #_(contains? #{"master" "main"} branch))
+    (if (and ght (contains? #{"master" "main"} branch))
       (do (assert file "File name must be provided")
           (println "Uploading" file)
           (prn :exists? (fs/exists? file))
