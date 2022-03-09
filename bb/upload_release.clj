@@ -1,5 +1,6 @@
 (ns upload-release
-  (:require [borkdude.gh-release-artifact :as ghr]
+  (:require [babashka.fs :as fs]
+            [borkdude.gh-release-artifact :as ghr]
             [clojure.java.shell :refer [sh]]
             [clojure.string :as str]))
 
@@ -18,9 +19,10 @@
 (defn release [{:keys [file version content-type]}]
   (let [ght (System/getenv "GITHUB_TOKEN")
         branch (current-branch)]
-    (if (and ght (contains? #{"master" "main"} branch))
+    (if (and ght true #_(contains? #{"master" "main"} branch))
       (do (assert file "File name must be provided")
           (println "Uploading" file)
+          (prn :exists? (fs/exists? file))
           (ghr/overwrite-asset {:org "babashka"
                                 :repo "obb"
                                 :file file
