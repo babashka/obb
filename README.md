@@ -73,6 +73,8 @@ SCI supports macros as first class citizens so you can write a few macros to dea
 
 - [Mac Automation Scripting Guide](https://developer.apple.com/library/archive/documentation/LanguagesUtilities/Conceptual/MacAutomationScriptingGuide/GettoKnowScriptEditor.html#//apple_ref/doc/uid/TP40016239-CH5-SW1)
 - [JXA Cookbook](https://github.com/JXA-Cookbook/JXA-Cookbook/wiki)
+- [Scripting with JXA](https://bru6.de/jxa/)
+    - [It illustrates a way to find an App's properties and elements.](https://bru6.de/jxa/basics/working-with-apps/#get-an-apps-properties-and-elements)
 
 ## Tips and tricks
 
