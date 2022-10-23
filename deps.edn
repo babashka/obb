@@ -1,4 +1,3 @@
 {:paths ["src" "resources"]
- :deps {org.babashka/sci {:mvn/version "0.3.3"}
-        org.clojure/clojurescript {:mvn/version "1.10.893"}}
- :aliases {:dev {:extra-deps {thheller/shadow-cljs {:mvn/version "2.16.12"}}}}}
+ :deps {org.babashka/sci {:mvn/version "0.5.34"}}
+ :aliases {:dev {:extra-deps {thheller/shadow-cljs {:mvn/version "2.20.6"}}}}}
