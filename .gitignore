@@ -20,3 +20,4 @@ node_modules
 .shadow-cljs
 .clj-kondo/babashka
 .clj-kondo/rewrite-clj
+.cache
